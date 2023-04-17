@@ -1,11 +1,13 @@
-import random
-
+"""
+predict_message_mood
+"""
 class SomeModel:
+    """
+    реализация не важна
+    """
     def predict(self, message: str) -> float:
-        random.seed(message)
-        prediction = random.random()
-        print(prediction)
-        return prediction
+        return 0.5
+
 
 def predict_message_mood(
     message: str,
@@ -13,6 +15,15 @@ def predict_message_mood(
     bad_thresholds: float = 0.3,
     good_thresholds: float = 0.8,
 ) -> str:
+    """
+    :param message:
+    :param model:
+    :param bad_thresholds:
+    :param good_thresholds:
+    :return: str
+    """
+    if not isinstance(message, str):
+        raise TypeError
     prediction = model.predict(message)
 
     if prediction < bad_thresholds:
@@ -22,3 +33,4 @@ def predict_message_mood(
     else:
         res = "норм"
     return res
+
