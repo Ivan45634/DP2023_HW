@@ -5,13 +5,9 @@ class CustomList(list):
     """
     Child class for list.
     implemented arithmetic operations:
-    +, -, ==, !=, >, >=, <, <=
+    +, -, ==, !=, >, >=, <, <=.
+    Override __str__ method.
     """
-
-    def __init__(self, data=None):
-        super().__init__()
-        self.list = data or []
-
     def __add__(self, other):
         if len(self) == len(other):
             result = [x + y for x, y in zip(self, other)]
@@ -19,14 +15,19 @@ class CustomList(list):
             result = [x + y for x, y in zip(self, other[: len(self)])]
             for i in range(len(self), len(other)):
                 result.append(other[i])
+        elif len(self) > len(other):
+            result = other + self
         return CustomList(result)
 
     def __radd__(self, other):
-        return self.__add__(other)
+        return CustomList(other) + self
 
     def __sub__(self, other):
         if len(self) == len(other):
             result = [x - y for x, y in zip(self, other)]
+        elif len(self) > len(other):
+            result = [x - y for x, y in zip(self, other)]
+            result.extend(self[len(other):])
         else:
             result = [x - y for x, y in zip(self, other[: len(self)])]
             result.extend([-i for i in other[len(self):]])
@@ -36,23 +37,22 @@ class CustomList(list):
         return CustomList([-i for i in self.__sub__(other)])
 
     def __str__(self):
-        summa = sum(i for i in self.list if isinstance(i, int))
-        return f"{self.list}, sum={summa}"
+        return f"CustomList: {super().__str__()}, Sum: {sum(self)}"
 
     def __eq__(self, other):
-        return sum(self.list) == sum(other.list)
+        return sum(self) == sum(other)
 
     def __ne__(self, other):
-        return sum(self.list) != sum(other.list)
+        return sum(self) != sum(other)
 
     def __gt__(self, other):
-        return sum(self.list) > sum(other.list)
+        return sum(self) > sum(other)
 
     def __ge__(self, other):
-        return sum(self.list) >= sum(other.list)
+        return sum(self) >= sum(other)
 
     def __lt__(self, other):
-        return sum(self.list) < sum(other.list)
+        return sum(self) < sum(other)
 
     def __le__(self, other):
-        return sum(self.list) <= sum(other.list)
+        return sum(self) <= sum(other)

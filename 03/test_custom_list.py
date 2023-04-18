@@ -114,7 +114,7 @@ class TestCustomList(unittest.TestCase):
         """
         # Same size CustomLists
         temp_lst1 = self.lst1.copy()
-        temp_lst8 = self.lst2.copy()
+        temp_lst8 = self.lst8.copy()
 
         self.assertEqual(list(self.lst1 - self.lst8),
                          list(CustomList([0, 2, 2, 4])))
@@ -187,9 +187,9 @@ class TestCustomList(unittest.TestCase):
         temp_lst6 = self.lst6.copy()
 
         self.assertEqual(list(self.lst2 - self.lst6),
-                         list(CustomList([4, 2, 0, -1, -1])))
+                         list(CustomList([4, 2, 0, 2, 1])))
         self.assertEqual(list(self.lst6 - self.lst2),
-                         list(CustomList([-4, -2, 0, 1, 1])))
+                         list(CustomList([-4, -2, 0, -2, -1])))
 
         self.assertEqual(list(self.lst2), list(temp_lst2))
         self.assertEqual(self.lst6, temp_lst6)
@@ -219,9 +219,7 @@ class TestCustomList(unittest.TestCase):
         test cases for __str__ override
         """
         custom_list = CustomList([1, 2, 3])
-        self.assertEqual(str(custom_list), "[1, 2, 3], sum=6")
-        custom_list.append("Hello, World!")
-        self.assertEqual(str(custom_list), "[1, 2, 3], sum=6")
+        self.assertEqual(str(custom_list), "CustomList: [1, 2, 3], Sum: 6")
 
 
 if __name__ == '__main__':
