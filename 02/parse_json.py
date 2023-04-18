@@ -11,32 +11,25 @@ def parse_json(
     """
     Parses the specified JSON string and runs keyword_callback function.
     """
-
-    # Парсим json
     json_doc = json.loads(json_str)
 
-    # Если required_fields не задан, считаем, что нужно обработать все поля
     if required_fields is None:
+        print("No required fields. Let's check existing keys!")
         required_fields = list(json_doc.keys())
 
-    # Если keywords не задан, просто ничего не делаем
     if keywords is None:
-        return
+        return None
 
-    # Проходимся по нужным полям
     for field in required_fields:
-        # Если поле не найдено, то переходим к следующему
         if field not in json_doc:
             continue
-        # Получаем значение поля
+
         value = json_doc[field]
 
-        # Проходим по ключевым словам
         for keyword in keywords:
-            # Если ключевое слово найдено в значении поля, вызываем обработчик
-            if keyword in value:
+            # считаем, что значение поля - набор слов, разделенных пробелом
+            if keyword in value.split():
                 if keyword_callback is not None:
-                    keyword_callback(keyword, field, value)
-                # Если нужно обработать только первое найденное ключевое слово,
-                # то выходим из цикла по ключевым словам
-                break
+                    keyword_callback(field, keyword)
+                    continue
+                raise TypeError

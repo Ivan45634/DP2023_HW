@@ -1,11 +1,7 @@
 """ This module contains unit tests for the parse_json function."""
 import unittest
 from unittest.mock import MagicMock, patch
-# import coverage
 from parse_json import parse_json
-
-# cov = coverage.Coverage()
-# cov.start()
 
 
 class TestParseJson(unittest.TestCase):
@@ -17,74 +13,86 @@ class TestParseJson(unittest.TestCase):
         """
         Test case for the parse_json function.
         """
-        # Создаем заглушку для keyword_callback
         keyword_callback_mock = MagicMock()
-        # Тестируем функцию
         parse_json('{"key1": "Word1 word2", "key2": "word2 word3"}',
                    ['key1'], ['word2'],
                    keyword_callback_mock
                    )
-        # Проверяем, что заглушка была вызвана 2 раза
-        keyword_callback_mock.assert_called_once_with('word2',
-                                                      'key1', 'Word1 word2')
+
+        keyword_callback_mock.assert_called_once_with('key1', 'word2')
 
     def test_parse_json_no_required_fields(self):
         """
         Test case for the parse_json function with no required fields.
         """
-        # Создаем заглушку для keyword_callback
         keyword_callback_mock = MagicMock()
-        # Тестируем функцию без обязательных полей
         parse_json('{"key1": "Word1 word2", "key2": "word2 word3"}',
                    None, ['word2'], keyword_callback_mock)
-        # Проверяем, что заглушка была вызвана 2 раза
         keyword_callback_mock.assert_has_calls([
-            unittest.mock.call('word2', 'key1', 'Word1 word2'),
-            unittest.mock.call('word2', 'key2', 'word2 word3')
+            unittest.mock.call('key1', 'word2'),
+            unittest.mock.call('key2', 'word2')
         ])
 
     def test_missing_fields_continue(self):
         """
         Test case for the parse_json function with no required fields.
         """
-        # Создаем заглушку для keyword_callback
         keyword_callback_mock = MagicMock()
-        # Проверяем функцию на то, что
-        # оператор continue был вызван в функции parse_json
-        # в случае отсутствия некоторых ключей в json объекте.
         parse_json('{"key1": "Word1 word2", "key2": "word2 word3"}',
                    ['key1', 'key2', 'key3'], ['word2'], keyword_callback_mock)
-        # Проверяем, что заглушка была вызвана 2 раза
         keyword_callback_mock.assert_has_calls([
-            unittest.mock.call('word2', 'key1', 'Word1 word2'),
-            unittest.mock.call('word2', 'key2', 'word2 word3')
+            unittest.mock.call('key1', 'word2'),
+            unittest.mock.call('key2', 'word2')
         ])
 
     def test_parse_json_no_keywords(self):
         """
         Test case for the parse_json function with no keywords.
         """
-        # Создаем заглушку для keyword_callback
         keyword_callback_mock = MagicMock()
-        # Тестируем функцию без ключевых слов
         parse_json('{"key1": "Word1 word2", "key2": "word2 word3"}',
                    ['key1'], None, keyword_callback_mock)
-        # Проверяем, что заглушка не была вызвана
         keyword_callback_mock.assert_not_called()
 
-    def test_parse_json_no_callback(self):
+    def test_print(self):
         """
-        Test case for the parse_json function with no callback.
+        Test the case when the None value is passed for required_fields.
         """
-        # Тестируем функцию без обработчика ключевых слов
-        parse_json('{"key1": "Word1 word2", "key2": "word2 word3"}',
-                   ['key1'], ['word2'], None)
+        with patch('builtins.print') as mock_print:
+            parse_json(json_str='{"field1": "value1", "field2": "value2"}',
+                       required_fields=None)
+            mock_print.assert_called_with(
+                "No required fields. Let's check existing keys!"
+            )
 
-    def test_parse_json_with_empty_string(self):
+    def test_return_none(self):
         """
-        Test case for the parse_json function with invalid JSON input.
+        Test case when the None value is passed for keywords.
         """
-        self.assertIsNone(parse_json('{}'))
+        self.assertIsNone(
+                parse_json(
+                    json_str='{"field1": "value1", "field2": "value2"}',
+                    keywords=None
+                    )
+                )
+
+    def test_keyword_callback_none(self):
+        """
+        Test case when the None value is passed for keyword_callback.
+        """
+        with self.assertRaises(TypeError):
+            parse_json('{"field1": "value1", "field2": "value2"}',
+                       ['field1'], ['value1'], None)
+
+    def test_parse_json_with_whole_word_match(self):
+        """
+        Test case when a whole word match with keyword in search
+        """
+        keywords = ["John"]
+        json_str = '{"name": "John", "surname": "Johnson"}'
+        keyword_callback = MagicMock()
+        parse_json(json_str, None, keywords, keyword_callback)
+        keyword_callback.assert_called_once_with('name', 'John')
 
     def test_parse_json_invalid_json(self):
         """
@@ -96,9 +104,6 @@ class TestParseJson(unittest.TestCase):
                 parse_json('{"name": "John", "age": 30}')
             mock_loads.assert_called_once_with('{"name": "John", "age": 30}')
 
-# cov.stop()
-# cov.report()
-# cov.html_report(directory='./covhtml')
 
-
-unittest.main()
+if __name__ == '__main__':
+    unittest.main()
