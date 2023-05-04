@@ -1,0 +1,2 @@
+usage: fetcher.py [-h] limit urlsfile
+test: pytest -v
