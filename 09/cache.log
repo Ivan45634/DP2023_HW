@@ -1,0 +1,50 @@
+2023-05-18 17:19:47,072 - __main__ - INFO - Key x added to cache
+2023-05-18 17:19:47,072 - __main__ - INFO - Key x found in cache
+2023-05-18 17:19:47,072 - __main__ - INFO - Key y not found in cache
+2023-05-18 17:19:47,072 - __main__ - INFO - Key y added to cache
+2023-05-18 17:19:47,072 - __main__ - INFO - Key x removed from cache
+2023-05-18 17:19:47,073 - __main__ - INFO - Key z added to cache
+2023-05-18 17:21:45,622 - __main__ - INFO - Key x added to cache
+2023-05-18 17:21:45,623 - __main__ - INFO - Key x found in cache
+2023-05-18 17:21:45,623 - __main__ - INFO - Key y not found in cache
+2023-05-18 17:21:45,623 - __main__ - INFO - Key y added to cache
+2023-05-18 17:21:45,623 - __main__ - INFO - Key x removed from cache
+2023-05-18 17:21:45,623 - __main__ - INFO - Key z added to cache
+2023-05-18 17:22:12,616 - __main__ - INFO - Key x added to cache
+2023-05-18 17:22:12,617 - __main__ - INFO - Key x found in cache
+2023-05-18 17:22:12,617 - __main__ - INFO - Key y added to cache
+2023-05-18 17:22:12,617 - __main__ - INFO - Key x removed from cache
+2023-05-18 17:22:12,617 - __main__ - INFO - Key z added to cache
+2023-05-18 17:25:19,219 - __main__ - INFO - Key x added to cache
+2023-05-18 17:25:19,220 - __main__ - INFO - Key x found in cache
+2023-05-18 17:25:19,220 - __main__ - INFO - Key y added to cache
+2023-05-18 17:25:19,221 - __main__ - INFO - Key x removed from cache
+2023-05-18 17:25:19,221 - __main__ - INFO - Key z added to cache
+2023-05-18 17:35:16,908 - __main__ - INFO - Key x added to cache
+2023-05-18 17:35:16,908 - __main__ - INFO - Key x found in cache
+2023-05-18 17:35:16,909 - __main__ - INFO - Key y added to cache
+2023-05-18 17:35:16,909 - __main__ - INFO - Key x removed from cache
+2023-05-18 17:35:16,909 - __main__ - INFO - Key z added to cache
+2023-05-18 17:35:29,247 - __main__ - INFO - Key x added to cache
+2023-05-18 17:35:29,247 - __main__ - INFO - Key x found in cache
+2023-05-18 17:35:29,247 - __main__ - INFO - Key y added to cache
+2023-05-18 17:35:29,247 - __main__ - INFO - Key x removed from cache
+2023-05-18 17:35:29,247 - __main__ - INFO - Key z added to cache
+2023-05-18 17:38:21,136 - __main__ - DEBUG - LRUCache initialized with limit=2
+2023-05-18 17:38:21,137 - __main__ - DEBUG - Key x added to cache
+2023-05-18 17:38:21,138 - __main__ - INFO - Key x set with value 1
+2023-05-18 17:38:21,138 - __main__ - INFO - Key x found in cache
+2023-05-18 17:38:21,138 - __main__ - INFO - Key y not found in cache
+2023-05-18 17:38:21,138 - __main__ - DEBUG - Key y added to cache
+2023-05-18 17:38:21,138 - __main__ - INFO - Key y set with value 2
+2023-05-18 17:38:21,138 - __main__ - WARNING - Cache capacity reached, key x removed from cache
+2023-05-18 17:38:21,138 - __main__ - DEBUG - Key z added to cache
+2023-05-18 17:38:21,139 - __main__ - INFO - Key z set with value 3
+2023-05-18 17:38:21,139 - __main__ - WARNING - Cache capacity reached, key y removed from cache
+2023-05-18 17:38:21,139 - __main__ - DEBUG - Key w added to cache
+2023-05-18 17:38:21,139 - __main__ - INFO - Key w set with value 4
+2023-05-18 17:38:46,761 - __main__ - DEBUG - Key x added to cache
+2023-05-18 17:38:46,761 - __main__ - INFO - Key x found in cache
+2023-05-18 17:38:46,762 - __main__ - DEBUG - Key y added to cache
+2023-05-18 17:38:46,762 - __main__ - DEBUG - Key z added to cache
+2023-05-18 17:38:46,762 - __main__ - DEBUG - Key w added to cache
