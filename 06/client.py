@@ -1,54 +1,44 @@
 import socket
-import argparse
 import threading
 import json
+import argparse
+
 
 class ClientThread(threading.Thread):
-    def __init__(self, urls, num_threads, top_k):
-        threading.Thread.__init__(self)
-        self.urls = urls
-        self.num_threads = num_threads
-        self.top_k = top_k
+    def __init__(self, url):
+        super().__init__()
+        self.url = url.strip()
+        self.host = "127.0.0.1"
+        self.port = 9999
 
     def run(self):
-        for url in self.urls:
+        try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                s.connect(("localhost", 8888))
-                s.sendall(url.encode('utf-8'))
-                result = s.recv(1024).decode('utf-8')
-                result = json.loads(result)
-                print(f"{url}: {result}")
+                s.connect((self.host, self.port))
+                s.sendall(self.url.encode("utf-8"))
+                data = s.recv(1024)
+                decoded_data = json.loads(data.decode("utf-8"))
+                print(f"{self.url}: {decoded_data}")
+        except Exception as e:
+            print(f"Error in client thread for {self.url}: {e}")
 
-class Client:
-    def __init__(self, num_threads, top_k, urls_file):
-        self.num_threads = num_threads
-        self.top_k = top_k
-        self.urls_file = urls_file
-    
-    def run(self):
-        # читаем URL'ы из файла
-        with open(self.urls_file) as f:
-            urls = f.readlines()
-        urls = [url.strip() for url in urls]
 
-        # запускаем потоки
-        threads = []
-        for i in range(self.num_threads):
-            thread = ClientThread(urls[i::self.num_threads], self.num_threads, self.top_k)
-            thread.daemon = True
+def process_urls(file_name, num_threads):
+    with open(file_name, "r") as f:
+        urls = f.readlines()
+
+    for i in range(0, len(urls), num_threads):
+        threads = [ClientThread(url) for url in urls[i:i+num_threads]]
+        for thread in threads:
             thread.start()
-            threads.append(thread)
-
-        # ждем завершения всех потоков
         for thread in threads:
             thread.join()
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("num_threads", type=int, help="number of threads")
-    parser.add_argument("urls_file", type=str, help="path to file with URLs")
-    parser.add_argument("-k", "--top_k", type=int, default=10, help="top K words")
+    parser.add_argument("-t", "--threads", type=int, default=4, help="Number of threads")
+    parser.add_argument("file", help="File with URLs")
     args = parser.parse_args()
 
-    client = Client(args.num_threads, args.top_k, args.urls_file)
-    client.run()
+    process_urls(args.file, args.threads)
